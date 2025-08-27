@@ -5,8 +5,13 @@
       "pages": [
         {
           "name": "Homepage",
-          "url": "https://www.petsmart.com/fish"
-        },
+          "url": "https://www.petsmart.com/fish/"
+        }
+      ]
+    },
+    {
+      "name": "Example Customer 2",
+      "pages": [
         {
           "name": "Product Page",
           "url": "https://shop.kingarthurbaking.com/"

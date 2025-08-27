@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { scanMultiplePages } from './scanner';
+import { scanMultiplePages } from './core/page-scanner';
 import { Customer, FingerprintsConfig, ScanResult } from './types';
 
 /**
