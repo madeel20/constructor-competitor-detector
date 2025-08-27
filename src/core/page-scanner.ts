@@ -20,6 +20,17 @@ export async function scanPage(
     const context = await browser.newContext();
     const page = await context.newPage();
 
+    // Track network requests - MUST be set up BEFORE navigation
+    const networkRequests: Array<{ url: string; method: string; resourceType: string }> = [];
+    
+    page.on('request', request => {
+      networkRequests.push({
+        url: request.url(),
+        method: request.method(),
+        resourceType: request.resourceType()
+      });
+    });
+
     // Navigate to the page
     await page.goto(url, { 
       waitUntil: 'networkidle',
@@ -28,9 +39,9 @@ export async function scanPage(
 
     // Wait for dynamic content
     await page.waitForTimeout(3000);
-
-    // Detect competitors
-    const competitors = await detectCompetitors(page, fingerprints.fingerprints);
+    
+    // Detect competitors (pass network requests for API detection)
+    const competitors = await detectCompetitors(page, fingerprints.fingerprints, networkRequests);
 
     return {
       customer,

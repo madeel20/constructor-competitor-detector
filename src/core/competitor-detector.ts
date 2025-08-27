@@ -14,7 +14,8 @@ import { calculateConfidence } from '../utils/confidence-calculator';
  */
 export async function detectCompetitors(
   page: Page,
-  fingerprints: { [competitorName: string]: Fingerprint }
+  fingerprints: { [competitorName: string]: Fingerprint },
+  networkRequests?: Array<{ url: string; method: string; resourceType: string }>
 ): Promise<CompetitorDetection[]> {
   const results: CompetitorDetection[] = [];
 
@@ -47,7 +48,7 @@ export async function detectCompetitors(
 
     // Check API requests (from network activity)
     if (fingerprint.apiRequestsURLs) {
-      const apiMatches = await checkAPIRequests(page, fingerprint.apiRequestsURLs);
+      const apiMatches = await checkAPIRequests(page, fingerprint.apiRequestsURLs, networkRequests);
       matches.push(...apiMatches);
     }
 
