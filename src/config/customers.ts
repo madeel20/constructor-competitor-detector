@@ -1,0 +1,36 @@
+import { CustomersConfig } from './types';
+
+export const customersConfig: CustomersConfig = {
+  customers: [
+    {
+      name: "Everlane",
+      pages: [
+        {
+          name: "Homepage",
+          url: "https://www.everlane.com/"
+        }
+      ]
+    },
+    {
+      name: "King Arthur Baking",
+      pages: [
+        {
+          name: "Homepage",
+          url: "https://shop.kingarthurbaking.com/"
+        }
+      ]
+    },
+    {
+        name: "Monica Vinader",
+        pages: [
+            {
+                name: "Homepage",
+                url: "https://www.monicavinader.com"
+            }
+        ]
+    }
+  ],
+  timeout: 30000,
+  headless: true,
+  userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+};

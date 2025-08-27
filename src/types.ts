@@ -1,35 +1,10 @@
-export interface Customer {
-  name: string;
-  pages: Array<{
-    name: string;
-    url: string;
-  }>;
-}
-
-export interface Fingerprint {
-  scripts?: {
-    src?: string[];
-    ids?: string[];
-    keywords?: string[];
-  };
-  apiRequestsURLs?: string[];
-  windowVariables?: string[];
-  dataAttributes?: string[];
-  cookies?: string[];
-  headTags?: Array<{
-    tag: string;
-    href?: string;
-    rel?: string;
-    [key: string]: any;
-  }>;
-  classesList?: string[];
-}
-
-export interface FingerprintsConfig {
-  fingerprints: {
-    [competitorName: string]: Fingerprint;
-  };
-}
+// Re-export config types for backward compatibility
+export type { 
+  CustomerConfig as Customer, 
+  CompetitorFingerprint as Fingerprint,
+  FingerprintsConfig,
+  PageConfig
+} from './config';
 
 export interface DetectionMatch {
   type: 'script' | 'apiRequest' | 'windowVariable' | 'dataAttribute' | 'cookie' | 'headTag' | 'class';

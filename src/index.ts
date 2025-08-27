@@ -1,26 +1,8 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { scanMultiplePages } from './core/page-scanner';
-import { Customer, FingerprintsConfig, ScanResult } from './types';
-
-/**
- * Load customers configuration
- */
-async function loadCustomers(): Promise<Customer[]> {
-  const configPath = path.join(__dirname, '../config/customers.json');
-  const content = await fs.readFile(configPath, 'utf-8');
-  const config = JSON.parse(content);
-  return config.customers || config; // Handle both formats
-}
-
-/**
- * Load fingerprints configuration
- */
-async function loadFingerprints(): Promise<FingerprintsConfig> {
-  const configPath = path.join(__dirname, '../config/fingerprints.json');
-  const content = await fs.readFile(configPath, 'utf-8');
-  return JSON.parse(content);
-}
+import { ScanResult } from './types';
+import { customersConfig, fingerprintsConfig } from './config';
 
 /**
  * Save scan results to file
@@ -43,8 +25,8 @@ async function saveResults(results: ScanResult[]): Promise<void> {
 async function main() {
   try {
     console.log('Loading configuration...');
-    const customers = await loadCustomers();
-    const fingerprints = await loadFingerprints();
+    const customers = customersConfig.customers;
+    const fingerprints = fingerprintsConfig;
 
     // Prepare pages to scan
     const pagesToScan = customers.flatMap(customer =>
@@ -118,4 +100,4 @@ if (require.main === module) {
   main();
 }
 
-export { main, loadCustomers, loadFingerprints, saveResults };
+export { main, saveResults };
