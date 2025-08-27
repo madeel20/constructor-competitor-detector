@@ -1,5 +1,5 @@
 import { FingerprintsConfig } from './types';
-
+// Competitor fingerprints configuration
 export const fingerprintsConfig: FingerprintsConfig = {
   fingerprints: {
     algolia: {

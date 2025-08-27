@@ -1,5 +1,5 @@
 import { CustomersConfig } from './types';
-
+// Customers configuration
 export const customersConfig: CustomersConfig = {
   customers: [
     {
