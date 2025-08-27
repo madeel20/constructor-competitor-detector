@@ -1,19 +1,19 @@
 {
   "customers": [
     {
-      "name": "Example Customer 1",
+      "name": "Everlane",
       "pages": [
         {
           "name": "Homepage",
-          "url": "https://www.petsmart.com/fish/"
+          "url": "https://www.everlane.com/"
         }
       ]
     },
     {
-      "name": "Example Customer 2",
+      "name": "King Arthur Baking",
       "pages": [
         {
-          "name": "Product Page",
+          "name": "Homepage",
           "url": "https://shop.kingarthurbaking.com/"
         }
       ]

@@ -45,29 +45,36 @@ export async function scanPage(
 }
 
 /**
- * Scan multiple pages for competitors
+ * Scan multiple pages for competitors in parallel with concurrency limit
  */
 export async function scanMultiplePages(
   pages: Array<{ url: string; customer: string; pageName: string }>,
   fingerprints: FingerprintsConfig,
-  options: { headless?: boolean; timeout?: number; delay?: number } = {}
+  options: { headless?: boolean; timeout?: number; delay?: number; maxConcurrency?: number } = {}
 ): Promise<ScanResult[]> {
+  const maxConcurrency = options.maxConcurrency || 10;
   const results: ScanResult[] = [];
-
-  for (const { url, customer, pageName } of pages) {
-    try {
-      console.log(`Scanning ${customer} - ${pageName}: ${url}`);
-      const result = await scanPage(url, customer, pageName, fingerprints, options);
-      results.push(result);
-      
-      // Add delay between requests to be respectful
-      if (options.delay) {
-        await new Promise(resolve => setTimeout(resolve, options.delay));
+  
+  // Process pages in chunks with concurrency limit
+  for (let i = 0; i < pages.length; i += maxConcurrency) {
+    const chunk = pages.slice(i, i + maxConcurrency);
+    
+    console.log(`Processing batch ${Math.floor(i / maxConcurrency) + 1}/${Math.ceil(pages.length / maxConcurrency)} (${chunk.length} pages)`);
+    
+    const chunkPromises = chunk.map(async ({ url, customer, pageName }) => {
+      try {
+        console.log(`Scanning ${customer} - ${pageName}: ${url}`);
+        return await scanPage(url, customer, pageName, fingerprints, options);
+      } catch (error) {
+        console.error(`Failed to scan ${url}:`, error);
+        return null;
       }
-    } catch (error) {
-      console.error(`Failed to scan ${url}:`, error);
-      // Continue with other pages
-    }
+    });
+    
+    const chunkResults = await Promise.all(chunkPromises);
+    
+    // Filter out failed scans (null results) and add successful ones
+    results.push(...chunkResults.filter((result): result is ScanResult => result !== null));
   }
 
   return results;
