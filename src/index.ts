@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { scanMultiplePages } from './core/page-scanner';
 import { ScanResult } from './types';
-import { customersConfig, fingerprintsConfig } from './config';
+import { customersConfig, fingerprintsConfig, envConfig } from './config';
 
 /**
  * Save scan results to file
@@ -25,7 +25,21 @@ async function saveResults(results: ScanResult[]): Promise<void> {
 async function main() {
   try {
     console.log('Loading configuration...');
-    const customers = customersConfig.customers;
+    let customers = customersConfig.customers;
+    
+    // Filter customers if specified
+    if (envConfig.customerFilter) {
+      customers = customers.filter(customer => 
+        customer.name.toLowerCase().includes(envConfig.customerFilter!.toLowerCase())
+      );
+      
+      if (customers.length === 0) {
+        console.error(`❌ No customers found matching "${envConfig.customerFilter}"`);
+        console.log(`📁 Check customer names in: src/config/customers.ts`);
+        process.exit(1);
+      }
+    }
+    
     const fingerprints = fingerprintsConfig;
 
     // Prepare pages to scan
@@ -41,8 +55,10 @@ async function main() {
 
     // Scan all pages
     const results = await scanMultiplePages(pagesToScan, fingerprints, {
-      headless: true,
-      timeout: 30000,
+      headless: envConfig.headless,
+      timeout: envConfig.timeout,
+      userAgent: envConfig.userAgent,
+      maxConcurrency: envConfig.batchSize,
       delay: 1000 // 1 second delay between requests
     });
 

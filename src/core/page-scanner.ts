@@ -10,14 +10,16 @@ export async function scanPage(
   customer: string,
   pageName: string,
   fingerprints: FingerprintsConfig,
-  options: { headless?: boolean; timeout?: number } = {}
+  options: { headless?: boolean; timeout?: number; userAgent?: string } = {}
 ): Promise<ScanResult> {
   const browser = await chromium.launch({ 
     headless: options.headless ?? true 
   });
 
   try {
-    const context = await browser.newContext();
+    const context = await browser.newContext({
+      userAgent: options.userAgent
+    });
     const page = await context.newPage();
 
     // Track network requests - MUST be set up BEFORE navigation
@@ -61,7 +63,7 @@ export async function scanPage(
 export async function scanMultiplePages(
   pages: Array<{ url: string; customer: string; pageName: string }>,
   fingerprints: FingerprintsConfig,
-  options: { headless?: boolean; timeout?: number; delay?: number; maxConcurrency?: number } = {}
+  options: { headless?: boolean; timeout?: number; userAgent?: string; delay?: number; maxConcurrency?: number } = {}
 ): Promise<ScanResult[]> {
   const maxConcurrency = options.maxConcurrency || 10;
   const results: ScanResult[] = [];

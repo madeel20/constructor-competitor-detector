@@ -10,9 +10,6 @@ export interface CustomerConfig {
 
 export interface CustomersConfig {
   customers: CustomerConfig[];
-  timeout: number;
-  headless: boolean;
-  userAgent: string;
 }
 
 export interface ScriptFingerprint {
