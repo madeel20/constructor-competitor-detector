@@ -13,7 +13,6 @@ A simple TypeScript project using Playwright to detect competitor fingerprints o
   - Head tags
   - API request URLs
 - 📊 Generate confidence scores for detections
-- 🔧 Functional programming approach - simple and modular
 - 📁 JSON-based configuration for customers and fingerprints
 
 ## Setup
@@ -40,18 +39,6 @@ Edit the `.env` file to configure your browser settings:
 
 ## Configuration
 
-### Environment Variables
-Create a `.env` file to configure browser settings:
-
-```env
-# Browser Configuration
-BROWSER_TIMEOUT=30000
-BROWSER_HEADLESS=true
-
-# Scanning Configuration
-BATCH_SIZE=10
-```
-
 ### Customer Configuration (`config/customers.json`)
 Define the customers and their pages to scan:
 
@@ -76,21 +63,39 @@ Define the customers and their pages to scan:
 ```
 
 ### Fingerprints Configuration (`config/fingerprints.json`)
-Define competitor fingerprints to detect:
+Define competitor fingerprints to detect. Example structure:
 
 ```json
 {
   "fingerprints": {
-    "algolia": {
+    "competitorName": {
       "scripts": {
-        "src": ["https://cdn.jsdelivr.net/npm/algoliasearch@4"],
-        "keywords": ["ALGOLIA_SEARCH_API_KEY", "algolia"]
+        "tags": [
+          {
+            "title": "Script description", // e.g. Algolia Search Client
+            "src": ["exact-script-url"], // e.g. CDN URL
+            "srcReg": ["regex-pattern-for-script-url"] // e.g. versioned CDN regex
+          }
+          // ...more script tag patterns
+        ],
+        "ids": ["element-id"], // DOM element IDs
+        "keywords": ["keyword-in-script"] // Keywords in script/config
       },
-      "windowVariables": ["algoliasearch", "__algolia"],
-      "classesList": ["ais-SearchBox", "ais-Hits"],
-      "dataAttributes": ["data-algolia-*"],
-      "cookies": ["_ALGOLIA"]
+      "apiRequestsURLs": ["api-endpoint-url"], // API endpoints used
+      "windowVariables": ["global-js-variable"], // JS variables on window
+      "dataAttributes": ["data-attribute-pattern"], // HTML data attributes
+      "cookies": ["cookie-name"], // Cookie names set by competitor
+      "headTags": [
+        {
+          "tag": "html-tag-type", // e.g. link, meta
+          "href": "url-pattern", // URL in tag
+          "rel": "relationship-attribute" // e.g. preconnect
+        }
+        // ...more head tag patterns
+      ],
+      "classesList": ["css-class-name"] // CSS classes used by competitor widgets
     }
+    // ...other competitors
   }
 }
 ```
@@ -108,6 +113,8 @@ npm run dev
 
 # Development mode with browser window visible
 npm run dev:headed
+or
+npm run dev -- --headless=false
 
 # Run specific customer with npm run dev
 npm run dev -- --customer="King Arthur Baking"
@@ -115,11 +122,6 @@ npm run dev -- --customer="Everlane"
 
 # Combine arguments with npm run dev
 npm run dev -- --customer="King Arthur" --headless=false
-
-# Or use npx directly
-npx ts-node src/index.ts --customer="King Arthur Baking"
-npx ts-node src/index.ts --customer="King Arthur"  # Partial match works
-```
 
 This will:
 1. Load customer and fingerprint configurations
@@ -137,54 +139,29 @@ This will:
 2. Environment variable (`BROWSER_HEADLESS`)
 3. Default value (`true`)
 
-**Customer filtering:**
-- Use exact customer name: `--customer="King Arthur Baking"`
-- Or partial match: `--customer="King Arthur"`
-- Case-insensitive matching
-- Shows available customers if no match found
-
-### Programmatic Usage
-
-```typescript
-import { scanPage, scanMultiplePages } from './src/scanner';
-import { loadFingerprints } from './src/index';
-
-// Scan a single page
-const fingerprints = await loadFingerprints();
-const result = await scanPage(
-  'https://example.com',
-  'Customer Name',
-  'Homepage',
-  fingerprints,
-  { headless: true, timeout: 30000 }
-);
-
-console.log(result);
-```
-
 ## Project Structure
 
 ```
 ├── src/
 │   ├── types.ts          # TypeScript interfaces
-│   ├── scanner.ts        # Core scanning functions
+│   ├── scanner.ts        # Scanning logic
 │   └── index.ts          # Main entry point
 ├── config/
-│   ├── customers.json    # Customer configuration
-│   └── fingerprints.json # Competitor fingerprints
-├── results/              # Scan results (auto-generated)
-├── package.json
-└── tsconfig.json
+│   ├── customers.json    # Customer definitions
+│   └── fingerprints.json # Fingerprint patterns
+├── results/              # Scan results
+├── package.json          # Project metadata & scripts
+└── tsconfig.json         # TypeScript config
 ```
 
 ## Output Format
 
-Results are saved as JSON files with this structure:
+Results are saved as JSON files in the `results/` folder. Example format:
 
 ```json
 {
   "customer": "Customer Name",
-  "pageName": "Homepage", 
+  "pageName": "Homepage",
   "url": "https://example.com",
   "timestamp": "2025-08-26T...",
   "competitors": [
@@ -194,22 +171,18 @@ Results are saved as JSON files with this structure:
       "confidence": 85,
       "matches": [
         {
-          "type": "script",
-          "value": "algoliasearch",
-          "details": { "type": "keyword" }
+          "type": "script", // match type: script, windowVariable, class, etc.
+          "value": "algoliasearch", // matched value
+          "details": {
+            "type": "keyword", // e.g. keyword, src, srcReg, etc.
+            // ...additional details
+          }
         }
+        // ...more matches
       ]
     }
+    // ...other competitors
   ]
 }
 ```
 
-## Scripts
-
-- `npm start` - Run the competitor detection
-- `npm run build` - Build TypeScript to JavaScript
-- `npm run dev` - Run in development mode with ts-node
-
-## License
-
-MIT
