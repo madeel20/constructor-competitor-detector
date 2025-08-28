@@ -28,7 +28,25 @@ npm install
 npx playwright install
 ```
 
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file to configure your browser settings:
+- `BROWSER_TIMEOUT`: Timeout for page operations in milliseconds (default: 30000)
+- `BROWSER_HEADLESS`: Whether to run browser in headless mode (default: true)
+
 ## Configuration
+
+### Environment Variables
+Create a `.env` file to configure browser settings:
+
+```env
+# Browser Configuration
+BROWSER_TIMEOUT=30000
+BROWSER_HEADLESS=true
+```
 
 ### Customer Configuration (`config/customers.json`)
 Define the customers and their pages to scan:

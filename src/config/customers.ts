@@ -1,16 +1,18 @@
 import { CustomersConfig } from './types';
+import { envConfig } from './env';
+
 // Customers configuration
 export const customersConfig: CustomersConfig = {
   customers: [
-    {
-      name: "Everlane",
-      pages: [
-        {
-          name: "Homepage",
-          url: "https://www.everlane.com/"
-        }
-      ]
-    },
+    // {
+    //   name: "Everlane",
+    //   pages: [
+    //     {
+    //       name: "Homepage",
+    //       url: "https://www.everlane.com/"
+    //     }
+    //   ]
+    // },
     {
       name: "King Arthur Baking",
       pages: [
@@ -20,17 +22,17 @@ export const customersConfig: CustomersConfig = {
         }
       ]
     },
-    {
-        name: "Monica Vinader",
-        pages: [
-            {
-                name: "Homepage",
-                url: "https://www.monicavinader.com"
-            }
-        ]
-    }
+    // {
+    //     name: "Monica Vinader",
+    //     pages: [
+    //         {
+    //             name: "Homepage",
+    //             url: "https://www.monicavinader.com"
+    //         }
+    //     ]
+    // }
   ],
-  timeout: 30000,
-  headless: true,
-  userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  timeout: envConfig.timeout,
+  headless: envConfig.headless,
+  userAgent: envConfig.userAgent
 };
