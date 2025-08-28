@@ -42,15 +42,15 @@ export async function checkScripts(
       }
 
       // If no exact match found, try regex patterns
-      if (scriptItem.srcReg && !matchFound) {
-        for (const regexPattern of scriptItem.srcReg) {
+      if (scriptItem.srcRegex && !matchFound) {
+        for (const regexPattern of scriptItem.srcRegex) {
           try {
             const regex = new RegExp(regexPattern);
             for (const scriptSrc of allScriptSrcs) {
               if (regex.test(scriptSrc)) {
                 matchFound = true;
                 matchDetails = {
-                  type: 'srcReg',
+                  type: 'srcRegex',
                   actualValue: scriptSrc,
                   pattern: regexPattern,
                   selector: `script[src="${scriptSrc}"]`

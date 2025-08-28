@@ -74,7 +74,7 @@ Define competitor fingerprints to detect. Example structure:
           {
             "title": "Script description", // e.g. Algolia Search Client
             "src": ["exact-script-url"], // e.g. CDN URL
-            "srcReg": ["regex-pattern-for-script-url"] // e.g. versioned CDN regex
+            "srcRegex": ["regex-pattern-for-script-url"] // e.g. versioned CDN regex
           }
           // ...more script tag patterns
         ],
@@ -174,7 +174,7 @@ Results are saved as JSON files in the `results/` folder. Example format:
           "type": "script", // match type: script, windowVariable, class, etc.
           "value": "algoliasearch", // matched value
           "details": {
-            "type": "keyword", // e.g. keyword, src, srcReg, etc.
+            "type": "keyword", // e.g. keyword, src, srcRegex, etc.
             // ...additional details
           }
         }

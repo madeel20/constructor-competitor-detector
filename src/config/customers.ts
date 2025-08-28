@@ -21,14 +21,14 @@ export const customersConfig: CustomersConfig = {
         }
       ]
     },
-    {
-        name: "Monica Vinader",
-        pages: [
-            {
-                name: "Homepage",
-                url: "https://www.monicavinader.com"
-            }
-        ]
-    }
+    // {
+    //     name: "Monica Vinader",
+    //     pages: [
+    //         {
+    //             name: "Homepage",
+    //             url: "https://www.monicavinader.com"
+    //         }
+    //     ]
+    // }
   ]
 };

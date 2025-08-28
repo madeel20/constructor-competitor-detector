@@ -8,22 +8,22 @@ export const fingerprintsConfig: FingerprintsConfig = {
           {
             title: "Algolia Search Client (Lite ESM Browser)",
             src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch-lite.esm.browser.js"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.esm\\.browser\\.js"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.esm\\.browser\\.js"]
           },
           {
-            title: "Algolia Search Client (Lite UMD)",
+            title: "Algolia Search Client (Lite UMD)", 
             src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.14.2/dist/algoliasearch-lite.umd.js"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.umd\\.js"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.umd\\.js"]
           },
           {
             title: "Algolia Search Client (ESM Browser)",
             src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch.esm.browser.js"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch\\.esm\\.browser\\.js"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch\\.esm\\.browser\\.js"]
           },
           {
             title: "Algolia Client A/B Testing",
             src: ["https://cdn.jsdelivr.net/npm/@algolia/client-abtesting@5.35.0/dist/builds/browser.umd.js"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/client-abtesting@\\d+\\.\\d+\\.\\d+/dist/builds/browser\\.umd\\.js"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/client-abtesting@\\d+\\.\\d+\\.\\d+/dist/builds/browser\\.umd\\.js"]
           },
           {
             title: "Algolia Search Insights",
@@ -31,7 +31,7 @@ export const fingerprintsConfig: FingerprintsConfig = {
               "https://cdn.jsdelivr.net/npm/search-insights@2.2.1",
               "https://cdn.jsdelivr.net/npm/search-insights@2.17.2/dist/search-insights.min.js",
             ],
-            srcReg: [
+            srcRegex: [
               "https://cdn\\.jsdelivr\\.net/npm/search-insights@\\d+\\.\\d+\\.\\d+",
               "https://cdn\\.jsdelivr\\.net/npm/search-insights@\\d+\\.\\d+\\.\\d+/dist/search-insights\\.min\\.js",
               ".*search-insights.*\\.js"
@@ -40,7 +40,7 @@ export const fingerprintsConfig: FingerprintsConfig = {
           {
             title: "Algolia InstantSearch.js",
             src: ["https://cdn.jsdelivr.net/npm/instantsearch.js@4.49.1/dist/instantsearch.production.min.js"],
-            srcReg: [
+            srcRegex: [
               "https://cdn\\.jsdelivr\\.net/npm/instantsearch\\.js@\\d+\\.\\d+\\.\\d+/dist/instantsearch\\.production\\.min\\.js",
               ".*instantsearch.*\\.js"
             ]
@@ -48,31 +48,31 @@ export const fingerprintsConfig: FingerprintsConfig = {
           {
             title: "Algolia Autocomplete Core",
             src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-js@\\d+\\.\\d+\\.\\d+"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-js@\\d+\\.\\d+\\.\\d+"]
           },
           {
             title: "Algolia Autocomplete Query Suggestions",
             src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-query-suggestions@\\d+\\.\\d+\\.\\d+"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-query-suggestions@\\d+\\.\\d+\\.\\d+"]
           },
           {
             title: "Algolia Autocomplete Insights Plugin",
             src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-algolia-insights@\\d+\\.\\d+\\.\\d+"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-algolia-insights@\\d+\\.\\d+\\.\\d+"]
           },
           {
             title: "Algolia Autocomplete Redirect Plugin",
             src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-redirect-url"],
-            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-redirect-url@\\d+\\.\\d+\\.\\d+"]
+            srcRegex: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-redirect-url@\\d+\\.\\d+\\.\\d+"]
           },
           {
             title: "Algolia Radar",
             src: ["https://cdn-us.algoliaradar.com/radar.js"],
-            srcReg: ["https://cdn-[a-z]+\\.algoliaradar\\.com/radar\\.js"]
+            srcRegex: ["https://cdn-[a-z]+\\.algoliaradar\\.com/radar\\.js"]
           },
           {
             title: "Generic Algolia Scripts",
-            srcReg: [
+            srcRegex: [
               ".*algoliasearch.*\\.js",
               ".*algolia.*\\.js"
             ]

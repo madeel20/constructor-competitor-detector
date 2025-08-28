@@ -15,7 +15,7 @@ export interface CustomersConfig {
 export interface ScriptTag {
   title: string;
   src?: string[];
-  srcReg?: string[];
+  srcRegex?: string[];
 }
 
 export interface ScriptFingerprint {
