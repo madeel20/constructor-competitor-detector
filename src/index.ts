@@ -97,6 +97,9 @@ async function main() {
               if (match.details.actualValue) {
                 console.log(`        → Actual value: ${match.details.actualValue}`);
               }
+              if (match.details.pattern) {
+                console.log(`        → Matched regex pattern: ${match.details.pattern}`);
+              }
               if (match.details.selector) {
                 console.log(`        → Selector: ${match.details.selector}`);
               }

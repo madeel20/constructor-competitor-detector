@@ -4,19 +4,79 @@ export const fingerprintsConfig: FingerprintsConfig = {
   fingerprints: {
     algolia: {
       scripts: {
-        src: [
-          "https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch-lite.esm.browser.js",
-          "https://cdn.jsdelivr.net/npm/algoliasearch@4.14.2/dist/algoliasearch-lite.umd.js",
-          "https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch.esm.browser.js",
-          "https://cdn.jsdelivr.net/npm/@algolia/client-abtesting@5.35.0/dist/builds/browser.umd.js",
-          "https://cdn.jsdelivr.net/npm/search-insights@2.2.1",
-          "https://cdn.jsdelivr.net/npm/instantsearch.js@4.49.1/dist/instantsearch.production.min.js",
-          "https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js",
-          "https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions",
-          "https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights",
-          "https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-redirect-url",
-          "https://cdn.jsdelivr.net/npm/search-insights@2.17.2/dist/search-insights.min.js",
-          "https://cdn-us.algoliaradar.com/radar.js"
+        tags: [
+          {
+            title: "Algolia Search Client (Lite ESM Browser)",
+            src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch-lite.esm.browser.js"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.esm\\.browser\\.js"]
+          },
+          {
+            title: "Algolia Search Client (Lite UMD)",
+            src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.14.2/dist/algoliasearch-lite.umd.js"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch-lite\\.umd\\.js"]
+          },
+          {
+            title: "Algolia Search Client (ESM Browser)",
+            src: ["https://cdn.jsdelivr.net/npm/algoliasearch@4.25.2/dist/algoliasearch.esm.browser.js"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/algoliasearch@\\d+\\.\\d+\\.\\d+/dist/algoliasearch\\.esm\\.browser\\.js"]
+          },
+          {
+            title: "Algolia Client A/B Testing",
+            src: ["https://cdn.jsdelivr.net/npm/@algolia/client-abtesting@5.35.0/dist/builds/browser.umd.js"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/client-abtesting@\\d+\\.\\d+\\.\\d+/dist/builds/browser\\.umd\\.js"]
+          },
+          {
+            title: "Algolia Search Insights",
+            src: [
+              "https://cdn.jsdelivr.net/npm/search-insights@2.2.1",
+              "https://cdn.jsdelivr.net/npm/search-insights@2.17.2/dist/search-insights.min.js",
+            ],
+            srcReg: [
+              "https://cdn\\.jsdelivr\\.net/npm/search-insights@\\d+\\.\\d+\\.\\d+",
+              "https://cdn\\.jsdelivr\\.net/npm/search-insights@\\d+\\.\\d+\\.\\d+/dist/search-insights\\.min\\.js",
+              ".*search-insights.*\\.js"
+            ]
+          },
+          {
+            title: "Algolia InstantSearch.js",
+            src: ["https://cdn.jsdelivr.net/npm/instantsearch.js@4.49.1/dist/instantsearch.production.min.js"],
+            srcReg: [
+              "https://cdn\\.jsdelivr\\.net/npm/instantsearch\\.js@\\d+\\.\\d+\\.\\d+/dist/instantsearch\\.production\\.min\\.js",
+              ".*instantsearch.*\\.js"
+            ]
+          },
+          {
+            title: "Algolia Autocomplete Core",
+            src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-js@\\d+\\.\\d+\\.\\d+"]
+          },
+          {
+            title: "Algolia Autocomplete Query Suggestions",
+            src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-query-suggestions@\\d+\\.\\d+\\.\\d+"]
+          },
+          {
+            title: "Algolia Autocomplete Insights Plugin",
+            src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-algolia-insights@\\d+\\.\\d+\\.\\d+"]
+          },
+          {
+            title: "Algolia Autocomplete Redirect Plugin",
+            src: ["https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-redirect-url"],
+            srcReg: ["https://cdn\\.jsdelivr\\.net/npm/@algolia/autocomplete-plugin-redirect-url@\\d+\\.\\d+\\.\\d+"]
+          },
+          {
+            title: "Algolia Radar",
+            src: ["https://cdn-us.algoliaradar.com/radar.js"],
+            srcReg: ["https://cdn-[a-z]+\\.algoliaradar\\.com/radar\\.js"]
+          },
+          {
+            title: "Generic Algolia Scripts",
+            srcReg: [
+              ".*algoliasearch.*\\.js",
+              ".*algolia.*\\.js"
+            ]
+          }
         ],
         ids: ["__NEXT_DATA__"],
         keywords: [

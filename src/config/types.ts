@@ -12,8 +12,14 @@ export interface CustomersConfig {
   customers: CustomerConfig[];
 }
 
-export interface ScriptFingerprint {
+export interface ScriptTag {
+  title: string;
   src?: string[];
+  srcReg?: string[];
+}
+
+export interface ScriptFingerprint {
+  tags?: ScriptTag[];
   ids?: string[];
   keywords?: string[];
 }

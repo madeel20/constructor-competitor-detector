@@ -1,25 +1,76 @@
 import { Page } from 'playwright';
 import { DetectionMatch } from '../types';
+import { ScriptTag } from '../config/types';
 
 /**
  * Check for script-related fingerprints
  */
 export async function checkScripts(
   page: Page,
-  scripts: { src?: string[]; ids?: string[]; keywords?: string[] }
+  scripts: { tags?: ScriptTag[]; ids?: string[]; keywords?: string[] }
 ): Promise<DetectionMatch[]> {
   const matches: DetectionMatch[] = [];
 
-  // Check script sources
-  if (scripts.src) {
-    for (const src of scripts.src) {
-      const found = await page.$(`script[src*="${src}"]`);
-      if (found) {
-        const actualSrc = await found.getAttribute('src');
+  // Check script sources (new structured approach)
+  if (scripts.tags) {
+    // Get all script sources from the page once
+    const allScriptSrcs = await page.evaluate(() => {
+      const scripts = Array.from(document.querySelectorAll('script[src]'));
+      return scripts.map((script: any) => script.src).filter(Boolean);
+    });
+
+    for (const scriptItem of scripts.tags) {
+      let matchFound = false;
+      let matchDetails: any = {};
+
+      // First try exact matches
+      if (scriptItem.src && !matchFound) {
+        for (const exactSrc of scriptItem.src) {
+          const found = await page.$(`script[src*="${exactSrc}"]`);
+          if (found) {
+            const actualSrc = await found.getAttribute('src');
+            matchFound = true;
+            matchDetails = {
+              type: 'src',
+              actualValue: actualSrc,
+              exactMatch: exactSrc,
+              selector: `script[src*="${exactSrc}"]`
+            };
+            break;
+          }
+        }
+      }
+
+      // If no exact match found, try regex patterns
+      if (scriptItem.srcReg && !matchFound) {
+        for (const regexPattern of scriptItem.srcReg) {
+          try {
+            const regex = new RegExp(regexPattern);
+            for (const scriptSrc of allScriptSrcs) {
+              if (regex.test(scriptSrc)) {
+                matchFound = true;
+                matchDetails = {
+                  type: 'srcReg',
+                  actualValue: scriptSrc,
+                  pattern: regexPattern,
+                  selector: `script[src="${scriptSrc}"]`
+                };
+                break;
+              }
+            }
+            if (matchFound) break;
+          } catch (error) {
+            console.warn(`Invalid regex pattern: ${regexPattern}`, error);
+          }
+        }
+      }
+
+      // If we found a match for this script item, add it to matches
+      if (matchFound) {
         matches.push({
           type: 'script',
-          value: src,
-          details: { type: 'src', actualValue: actualSrc, selector: `script[src*="${src}"]` }
+          value: scriptItem.title,
+          details: matchDetails
         });
       }
     }
