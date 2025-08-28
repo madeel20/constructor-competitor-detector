@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { scanMultiplePages } from './core/page-scanner';
-import { ScanResult } from './types';
+import { ScanResult, ScanSummary } from './types';
 import { customersConfig, fingerprintsConfig, envConfig } from './config';
 
 /**
@@ -15,7 +15,14 @@ async function saveResults(results: ScanResult[]): Promise<void> {
   // Ensure results directory exists
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   
-  await fs.writeFile(outputPath, JSON.stringify(results, null, 2));
+  const summary: ScanSummary = {
+    totalPages: results.length,
+    successfulScans: results.filter(r => r.success).length,
+    failedScans: results.filter(r => !r.success).length,
+    results
+  };
+  
+  await fs.writeFile(outputPath, JSON.stringify(summary, null, 2));
   console.log(`Results saved to: ${outputPath}`);
 }
 
@@ -67,8 +74,14 @@ async function main() {
 
     // Print summary
     console.log('\n=== SCAN SUMMARY ===');
-    results.forEach(result => {
-      const detectedCompetitors = result.competitors.filter(c => c.detected);
+    const successfulResults = results.filter(r => r.success);
+    const failedResults = results.filter(r => !r.success);
+    
+    console.log(`📊 Total scans: ${results.length} | ✅ Successful: ${successfulResults.length} | ❌ Failed: ${failedResults.length}`);
+    
+    // Report successful scans
+    successfulResults.forEach(result => {
+      const detectedCompetitors = result.competitors?.filter(c => c.detected) || [];
       console.log(`\n${result.customer} - ${result.pageName} (${result.url}):`);
       
       if (detectedCompetitors.length === 0) {
@@ -104,6 +117,15 @@ async function main() {
         });
       }
     });
+    
+    // Report failed scans
+    if (failedResults.length > 0) {
+      console.log('\n=== FAILED SCANS ===');
+      failedResults.forEach(result => {
+        console.log(`\n❌ ${result.customer} - ${result.pageName} (${result.url}):`);
+        console.log(`   Error: ${result.error?.type}: ${result.error?.message}`);
+      });
+    }
 
   } catch (error) {
     console.error('Error running competitor detection:', error);

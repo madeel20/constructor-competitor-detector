@@ -24,5 +24,17 @@ export interface ScanResult {
   pageName: string;
   url: string;
   timestamp: Date;
-  competitors: CompetitorDetection[];
+  success: boolean;
+  competitors?: CompetitorDetection[];
+  error?: {
+    message: string;
+    type: string;
+  };
+}
+
+export interface ScanSummary {
+  totalPages: number;
+  successfulScans: number;
+  failedScans: number;
+  results: ScanResult[];
 }

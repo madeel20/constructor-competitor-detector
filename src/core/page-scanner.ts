@@ -50,6 +50,7 @@ export async function scanPage(
       pageName,
       url,
       timestamp: new Date(),
+      success: true,
       competitors
     };
   } finally {
@@ -79,15 +80,25 @@ export async function scanMultiplePages(
         console.log(`Scanning ${customer} - ${pageName}: ${url}`);
         return await scanPage(url, customer, pageName, fingerprints, options);
       } catch (error) {
-        console.error(`Failed to scan ${url}:`, error);
-        return null;
+        console.error(`❌ Failed to scan ${customer} - ${pageName}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        return {
+          customer,
+          pageName,
+          url,
+          timestamp: new Date(),
+          success: false,
+          error: {
+            message: error instanceof Error ? error.message : 'Unknown error',
+            type: error instanceof Error ? error.constructor.name : 'UnknownError'
+          }
+        } as ScanResult;
       }
     });
     
     const chunkResults = await Promise.all(chunkPromises);
     
-    // Filter out failed scans (null results) and add successful ones
-    results.push(...chunkResults.filter((result): result is ScanResult => result !== null));
+    // Add all results (both successful and failed)
+    results.push(...chunkResults);
   }
 
   return results;
